@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     fclose(file);
 
     // Sending filename - 2 bytes LE
-    uint16_t filename_len = strlen(filename);
+    uint16_t filename_len = strlen(filename); // absolute ?????????
     send(client_socket, &filename_len, sizeof(filename_len), 0);
     send(client_socket, filename, filename_len, 0);
 
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     send(client_socket, (void *) &file_size, 8, 0);
 
     // Sending file
-    FILE *file_content = fopen(filename, "rb");
+    FILE *file_content = fopen(filename, "rb"); // reopening !!!!!!!!!!!!!!!!!!!!!
     if (!file_content) {
         perror("File open error");
         close(client_socket);
@@ -71,9 +71,9 @@ int main(int argc, char *argv[]) {
     char buffer[4096];
     int bytes;
     while ((bytes = fread(buffer, 1, 4096, file_content)) > 0) {
-        send(client_socket, buffer, bytes, 0);
+        send(client_socket, buffer, bytes, 0); // error??????????
     }
-    printf("Sent file to server\n");
+    printf("Sent file to server\n"); // about error
     fclose(file_content);
 
     // Server response
